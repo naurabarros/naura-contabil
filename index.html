@@ -545,8 +545,12 @@ tr.rl td{background:#fff5f5}tr.rl:hover td{background:var(--rll)}
     <input type="text" id="sync-key" placeholder="Cole aqui sua Master Key ($2a$10$...)">
   </div>
   <div class="field" id="sync-bin-wrap">
-    <label>ID do seu banco de dados (gerado automaticamente na primeira vez)</label>
-    <input type="text" id="sync-bin" placeholder="Será preenchido automaticamente..." readonly style="background:var(--s2);color:var(--t2)">
+    <label>ID do banco de dados</label>
+    <div style="display:flex;gap:6px">
+      <input type="text" id="sync-bin" placeholder="Será preenchido automaticamente..." style="flex:1;font-size:11px">
+      <button type="button" class="btn primary" onclick="trocarBinId()" style="height:36px;font-size:11px;white-space:nowrap;flex-shrink:0">✅ Usar este ID</button>
+    </div>
+    <div style="font-size:11px;color:var(--t3);margin-top:3px">Para sincronizar com outro dispositivo, cole o ID dele aqui e clique em "Usar este ID".</div>
   </div>
 
   <div id="sync-status" style="font-size:13px;padding:10px 12px;border-radius:var(--rs);margin-bottom:12px;display:none"></div>
@@ -6484,6 +6488,15 @@ const SYNC_KEY_STORE  = 'naura_sync_key';
 const SYNC_BIN_STORE  = 'naura_sync_bin';
 let _syncAtivo = false;
 let _syncDebounce = null;
+
+function trocarBinId(){
+  const novoId=document.getElementById('sync-bin').value.trim();
+  if(!novoId){alert('Cole o ID do outro dispositivo no campo.');return;}
+  if(!confirm('Trocar para o banco de dados:\n'+novoId+'\n\nIsso vai carregar os dados desse banco. Confirma?'))return;
+  localStorage.setItem(SYNC_BIN_STORE,novoId);
+  toast('🔄 Carregando dados do novo banco...');
+  setTimeout(()=>syncNuvemCarregar(),500);
+}
 
 function getSyncConfig(){
   return{
