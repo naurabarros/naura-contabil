@@ -218,6 +218,73 @@ tr.rl td{background:#fff5f5}tr.rl:hover td{background:var(--rll)}
 </head>
 <body>
 
+<!-- TELA DE LOGIN -->
+<div id="tela-login" style="display:none;position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#1a3a6b 0%,#1e3a8a 50%,#1d4ed8 100%);display:flex;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:20px;padding:40px 36px;max-width:420px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.4)">
+    <div style="text-align:center;margin-bottom:32px">
+      <div style="font-size:48px;margin-bottom:12px">🧮</div>
+      <div style="font-size:24px;font-weight:900;color:#1a3a6b;letter-spacing:-0.5px">Naura Barros</div>
+      <div style="font-size:14px;color:#64748b;margin-top:4px">Contabilidade Inteligente</div>
+    </div>
+
+    <!-- Painel: digitar PIN -->
+    <div id="login-pin-panel">
+      <div style="font-size:15px;font-weight:700;color:#1a3a6b;margin-bottom:6px;text-align:center">Digite seu PIN</div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:20px;text-align:center">Acesso rápido ao app</div>
+      <div style="display:flex;gap:10px;justify-content:center;margin-bottom:20px" id="pin-dots"></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:240px;margin:0 auto 20px">
+        ${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(n=>`
+          <button onclick="pinKey('${n}')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;transition:.1s;color:#1a3a6b" onmousedown="this.style.background='#dbeafe'" onmouseup="this.style.background='#f8fafc'">${n}</button>
+        `).join('')}
+      </div>
+      <div style="text-align:center">
+        <button onclick="mostrarMasterKey()" style="background:none;border:none;color:#3b82f6;font-size:13px;cursor:pointer;text-decoration:underline">
+          Novo dispositivo? Entrar com Master Key
+        </button>
+      </div>
+      <div id="pin-erro" style="display:none;background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:10px;text-align:center;font-size:13px;color:#dc2626;margin-top:12px">
+        ❌ PIN incorreto. Tente novamente.
+      </div>
+    </div>
+
+    <!-- Painel: Master Key -->
+    <div id="login-mk-panel" style="display:none">
+      <div style="font-size:15px;font-weight:700;color:#1a3a6b;margin-bottom:6px;text-align:center">Entrar com Master Key</div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:20px;text-align:center">Cole sua Master Key do JSONBin.io para sincronizar seus dados neste aparelho.</div>
+      <div style="margin-bottom:12px">
+        <label style="font-size:12px;font-weight:600;color:#374151">Master Key JSONBin</label>
+        <input type="text" id="mk-input" placeholder="$2a$10$..." style="width:100%;margin-top:4px;height:44px;border:2px solid #e2e8f0;border-radius:10px;padding:0 12px;font-size:13px;font-family:monospace;outline:none">
+      </div>
+      <div style="margin-bottom:20px">
+        <label style="font-size:12px;font-weight:600;color:#374151">Bin ID (deixe vazio se não sabe)</label>
+        <input type="text" id="binid-input" placeholder="6a7e1acef5f4af5e2912a493 (opcional)" style="width:100%;margin-top:4px;height:44px;border:2px solid #e2e8f0;border-radius:10px;padding:0 12px;font-size:13px;font-family:monospace;outline:none">
+      </div>
+      <button onclick="entrarComMasterKey()" style="width:100%;height:48px;background:#1a3a6b;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:12px">
+        ✅ Entrar e sincronizar dados
+      </button>
+      <div style="text-align:center">
+        <button onclick="mostrarPIN()" style="background:none;border:none;color:#3b82f6;font-size:13px;cursor:pointer;text-decoration:underline">
+          ← Voltar para o PIN
+        </button>
+      </div>
+      <div id="mk-status" style="display:none;border-radius:8px;padding:10px;text-align:center;font-size:13px;margin-top:12px"></div>
+    </div>
+
+    <!-- Painel: criar PIN -->
+    <div id="login-criar-panel" style="display:none">
+      <div style="font-size:15px;font-weight:700;color:#1a3a6b;margin-bottom:6px;text-align:center">Criar PIN de acesso</div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:20px;text-align:center">Escolha um PIN de 4 dígitos para acessar rapidamente o app neste aparelho.</div>
+      <div style="display:flex;gap:10px;justify-content:center;margin-bottom:16px" id="novo-pin-dots"></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:240px;margin:0 auto 16px">
+        ${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(n=>`
+          <button onclick="novoPinKey('${n}')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b" onmousedown="this.style.background='#dbeafe'" onmouseup="this.style.background='#f8fafc'">${n}</button>
+        `).join('')}
+      </div>
+      <div style="font-size:12px;color:#64748b;text-align:center">4 dígitos · Não pode ser 0000 ou 1234</div>
+    </div>
+  </div>
+</div>
+
 <!-- TOPBAR -->
 <div class="topbar" id="topbar">
   <button class="tbtn" onclick="toggleSidebar()"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h16M3 11h16M3 16h16"/></svg></button>
@@ -263,6 +330,7 @@ tr.rl td{background:#fff5f5}tr.rl:hover td{background:var(--rll)}
     <button class="ni" onclick="document.getElementById('imp-inp').click()" style="font-size:12px;padding:7px 10px"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 10V2M5 5l3-3 3 3M3 12h10"/></svg>Importar backup (.json)</button>
     <button class="ni" onclick="abrirModalSync()" style="font-size:12px;padding:7px 10px" id="btn-sync"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8a6 6 0 0 1 10.7-3.7M14 8a6 6 0 0 1-10.7 3.7M2 4v4h4M14 12v-4h-4"/></svg><span id="sync-label">☁️ Configurar nuvem</span></button>
     <button class="ni" onclick="limparDuplicatasManual()" style="font-size:12px;padding:7px 10px"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h10l-1 9H4L3 4zM6 4V2h4v2"/></svg>🧹 Limpar duplicatas</button>
+    <button class="ni" onclick="trocarPIN()" style="font-size:12px;padding:7px 10px">🔐 Trocar PIN de acesso</button>
     <button class="ni" onclick="abrirAtualizador()" style="font-size:12px;padding:7px 10px;color:var(--bl);border-top:1px solid rgba(255,255,255,.15);margin-top:4px;padding-top:10px"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 8A5 5 0 1 1 8 3"/><path d="M11 1l2 2-2 2"/></svg>🔄 Atualizar app</button>
     <input type="file" id="imp-inp" accept=".json" style="display:none" onchange="importarDados(event)">
   </div>
@@ -6486,6 +6554,7 @@ function imprimirRel(){
 // ═══ SINCRONIZAÇÃO NA NUVEM (JSONBin.io) ═══
 const SYNC_KEY_STORE  = 'naura_sync_key';
 const SYNC_BIN_STORE  = 'naura_sync_bin';
+const SYNC_KEY_STORE_ALIAS = 'naura_mk'; // alias para compatibilidade com login
 let _syncAtivo = false;
 let _syncDebounce = null;
 
@@ -6499,10 +6568,46 @@ function trocarBinId(){
 }
 
 function getSyncConfig(){
-  return{
-    key: localStorage.getItem(SYNC_KEY_STORE)||'',
-    bin: localStorage.getItem(SYNC_BIN_STORE)||''
-  };
+  // Aceita a Master Key tanto do store de sync quanto do store de login
+  const key=localStorage.getItem(SYNC_KEY_STORE)||localStorage.getItem(SYNC_KEY_STORE_ALIAS)||'';
+  const bin=localStorage.getItem(SYNC_BIN_STORE)||'';
+  return{key,bin};
+}
+
+// Descobre ou cria o Bin ID a partir da Master Key
+// Evita criar um bin novo toda vez que abre em aparelho diferente
+async function descobrirOuCriarBin(masterKey){
+  try{
+    // Tenta listar os bins existentes
+    const res=await fetch('https://api.jsonbin.io/v3/b?sortBy=createdAt&order=desc',{
+      headers:{'X-Master-Key':masterKey}
+    });
+    if(res.ok){
+      const data=await res.json();
+      // Procura um bin com os dados do app (que tenha clientes)
+      if(data&&data.length>0){
+        // Tenta o primeiro bin
+        for(const bin of data.slice(0,5)){
+          const r=await fetch(`https://api.jsonbin.io/v3/b/${bin.record.metadata.id}/latest`,{
+            headers:{'X-Master-Key':masterKey}
+          });
+          if(r.ok){
+            const d=await r.json();
+            if(d.record?.clientes?.length>0){
+              const binId=bin.record.metadata.id;
+              localStorage.setItem(SYNC_BIN_STORE,binId);
+              return binId;
+            }
+          }
+        }
+        // Nenhum bin com dados — usa o primeiro
+        const binId=data[0].record.metadata.id;
+        localStorage.setItem(SYNC_BIN_STORE,binId);
+        return binId;
+      }
+    }
+  }catch(e){}
+  return null;
 }
 
 function limparDuplicatasManual(){
@@ -6679,10 +6784,11 @@ async function syncNuvemCarregar(){
       console.warn('Nuvem está vazia mas há dados locais — ignorando para proteger seus dados.');
       return false;
     }
-    // Só atualiza se a nuvem é mais recente
+    // Só atualiza se a nuvem é mais recente OU se localStorage está vazio
     const localTs=ld('naura_db',{})?.ts||0;
     const remoteTs=remote.ts||0;
-    if(remoteTs>localTs+5000){ // diferença > 5 segundos
+    const localVazio=CLIENTES.length===0;
+    if(localVazio||(remoteTs>localTs+5000)){ // vazio OU diferença > 5 segundos
       CLIENTES=remote.clientes||[];
       SERVICOS=remote.servicos||[];
       REGISTROS=(remote.registros||[]).map(r=>({...r,recebimentos:r.recebimentos||[]}));
@@ -6869,35 +6975,348 @@ buildCliSelect('f-svc-cli');
 buildCliSelect('f-fin-cli');
 carregarFoto();
 carregarMeusDados();
+// Verifica login — mostra tela de acesso se necessário
+verificarLogin();
 
-// Verifica se nuvem está configurada e ativa indicador
+// ═══ SISTEMA DE LOGIN ═══
+const LOGIN_PIN_KEY='naura_pin_hash';
+const LOGIN_MK_KEY='naura_mk';
+let _pinBuffer='';
+let _novoPinBuffer='';
+let _novoPinEtapa=1; // 1=digitar, 2=confirmar
+let _novoPinPrimeiro='';
+
+function hashSimples(str){
+  // Hash simples mas suficiente para PIN local
+  let h=0;for(let i=0;i<str.length;i++){h=(h<<5)-h+str.charCodeAt(i);h|=0;}
+  return h.toString(36);
+}
+
+function verificarLogin(){
+  const pinSalvo=localStorage.getItem(LOGIN_PIN_KEY);
+  const mkSalvo=localStorage.getItem(LOGIN_MK_KEY);
+  const tela=document.getElementById('tela-login');
+
+  if(!mkSalvo){
+    // Nunca configurou — vai para tela de Master Key
+    tela.style.display='flex';
+    document.getElementById('login-pin-panel').style.display='none';
+    document.getElementById('login-mk-panel').style.display='block';
+    document.getElementById('login-criar-panel').style.display='none';
+    return false;
+  }
+  if(!pinSalvo){
+    // Tem MK mas sem PIN — cria PIN
+    tela.style.display='flex';
+    document.getElementById('login-pin-panel').style.display='none';
+    document.getElementById('login-mk-panel').style.display='none';
+    document.getElementById('login-criar-panel').style.display='block';
+    renderNovoPinDots();
+    return false;
+  }
+  // Tem tudo — mostra tela de PIN
+  tela.style.display='flex';
+  document.getElementById('login-pin-panel').style.display='block';
+  document.getElementById('login-mk-panel').style.display='none';
+  document.getElementById('login-criar-panel').style.display='none';
+  renderPinDots();
+  return false;
+}
+
+function abrirApp(){
+  const tela=document.getElementById('tela-login');
+  tela.style.display='none';
+}
+
+// ── PIN de acesso ──
+function renderPinDots(){
+  const el=document.getElementById('pin-dots');
+  if(!el)return;
+  el.innerHTML=[0,1,2,3].map(i=>
+    `<div style="width:16px;height:16px;border-radius:50%;border:2px solid #1a3a6b;background:${i<_pinBuffer.length?'#1a3a6b':'transparent'};transition:.15s"></div>`
+  ).join('');
+}
+
+function pinKey(v){
+  if(v==='⌫'){_pinBuffer=_pinBuffer.slice(0,-1);renderPinDots();document.getElementById('pin-erro').style.display='none';return;}
+  if(v===''||_pinBuffer.length>=4)return;
+  _pinBuffer+=v;
+  renderPinDots();
+  if(_pinBuffer.length===4) setTimeout(verificarPIN,200);
+}
+
+function verificarPIN(){
+  const pinSalvo=localStorage.getItem(LOGIN_PIN_KEY);
+  if(hashSimples(_pinBuffer)===pinSalvo){
+    abrirApp();
+  } else {
+    document.getElementById('pin-erro').style.display='block';
+    _pinBuffer='';
+    renderPinDots();
+  }
+}
+
+// ── Criar novo PIN ──
+function renderNovoPinDots(){
+  const el=document.getElementById('novo-pin-dots');
+  if(!el)return;
+  const buf=_etapa1?_novoPinPrimeiro:_novoPinBuffer;
+  // Atualiza título
+  const titulo=document.querySelector('#login-criar-panel div:first-child');
+  if(titulo)titulo.textContent=_novoPinEtapa===2?'Confirme seu PIN':'Criar PIN de acesso';
+  el.innerHTML=[0,1,2,3].map(i=>
+    `<div style="width:16px;height:16px;border-radius:50%;border:2px solid #1a3a6b;background:${i<_novoPinBuffer.length?'#1a3a6b':'transparent'};transition:.15s"></div>`
+  ).join('');
+}
+
+function novoPinKey(v){
+  if(v==='⌫'){_novoPinBuffer=_novoPinBuffer.slice(0,-1);renderNovoPinDots();return;}
+  if(v===''||_novoPinBuffer.length>=4)return;
+  _novoPinBuffer+=v;
+  renderNovoPinDots();
+  if(_novoPinBuffer.length===4) setTimeout(processarNovoPin,200);
+}
+
+function processarNovoPin(){
+  if(_novoPinEtapa===1){
+    const proibidos=['0000','1111','2222','3333','4444','5555','6666','7777','8888','9999','1234','4321','0123'];
+    if(proibidos.includes(_novoPinBuffer)){
+      alert('PIN muito simples. Escolha outro.');_novoPinBuffer='';renderNovoPinDots();return;
+    }
+    _novoPinPrimeiro=_novoPinBuffer;
+    _novoPinBuffer='';
+    _novoPinEtapa=2;
+    renderNovoPinDots();
+  } else {
+    if(_novoPinBuffer===_novoPinPrimeiro){
+      localStorage.setItem(LOGIN_PIN_KEY,hashSimples(_novoPinBuffer));
+      _novoPinBuffer='';_novoPinEtapa=1;
+      abrirApp();
+      toast('✅ PIN criado! Use-o para acessar o app.');
+    } else {
+      alert('PINs não conferem. Tente novamente.');
+      _novoPinBuffer='';_novoPinPrimeiro='';_novoPinEtapa=1;renderNovoPinDots();
+    }
+  }
+}
+
+// ── Entrar com Master Key (novo dispositivo) ──
+async function entrarComMasterKey(){
+  const mk=document.getElementById('mk-input').value.trim();
+  const binIdManual=document.getElementById('binid-input').value.trim();
+  const st=document.getElementById('mk-status');
+  if(!mk){alert('Cole sua Master Key do JSONBin.');return;}
+
+  st.style.display='block';
+  st.style.background='#eff6ff';st.style.border='1px solid #93c5fd';
+  st.textContent='⏳ Conectando e buscando seus dados...';
+
+  try{
+    // Salva a MK
+    localStorage.setItem(SYNC_KEY_STORE,mk);
+    localStorage.setItem(SYNC_KEY_STORE_ALIAS,mk);
+
+    // Usa Bin ID manual se fornecido, senão descobre automaticamente
+    let binId=binIdManual;
+    if(!binId){
+      st.textContent='⏳ Buscando seu banco de dados...';
+      binId=await descobrirOuCriarBin(mk);
+    } else {
+      localStorage.setItem(SYNC_BIN_STORE,binId);
+    }
+
+    if(!binId){
+      st.style.background='#fefce8';st.style.border='1px solid #fde047';
+      st.innerHTML='⚠️ Nenhum banco encontrado. Será criado um novo quando você salvar dados. Crie seu PIN para continuar.';
+      setTimeout(()=>{
+        document.getElementById('login-mk-panel').style.display='none';
+        document.getElementById('login-criar-panel').style.display='block';
+        renderNovoPinDots();
+      },1500);
+      _syncAtivo=true;atualizarBtnSync(true);
+      return;
+    }
+
+    // Carrega dados do bin encontrado
+    st.textContent='⏳ Carregando seus dados...';
+    const res=await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`,{
+      headers:{'X-Master-Key':mk}
+    });
+
+    if(res.ok){
+      const data=await res.json();
+      const remote=data.record;
+      if(remote?.clientes?.length>0){
+        CLIENTES=remote.clientes||[];
+        SERVICOS=remote.servicos||[];
+        REGISTROS=(remote.registros||[]).map(r=>({...r,recebimentos:r.recebimentos||[]}));
+        CONCLUSOES=remote.conclusoes||[];
+        nId=Math.max(1000,...SERVICOS.map(x=>x.id||0))+1;
+        nCId=Math.max(1000,...CLIENTES.map(x=>x.id||0))+1;
+        nRId=Math.max(1000,...REGISTROS.map(x=>x.id||0))+1;
+        nOId=Math.max(1000,...CONCLUSOES.map(x=>x.id||0))+1;
+        limparDuplicatas();syncMensalidades();syncObrigacoesServicos();syncComp(COMP_HOJE);
+        persist();
+        st.style.background='#f0fdf4';st.style.border='1px solid #86efac';
+        st.innerHTML=`✅ ${CLIENTES.length} clientes carregados! Crie seu PIN.`;
+        setTimeout(()=>{
+          document.getElementById('login-mk-panel').style.display='none';
+          document.getElementById('login-criar-panel').style.display='block';
+          renderNovoPinDots();
+        },1500);
+        _syncAtivo=true;atualizarBtnSync(true);
+        renderDashboard();
+        return;
+      }
+    }
+    // Sem dados
+    st.style.background='#fefce8';st.style.border='1px solid #fde047';
+    st.innerHTML='⚠️ Banco encontrado mas sem dados. Crie seu PIN e importe um backup se tiver.';
+    setTimeout(()=>{
+      document.getElementById('login-mk-panel').style.display='none';
+      document.getElementById('login-criar-panel').style.display='block';
+      renderNovoPinDots();
+    },1500);
+    _syncAtivo=true;atualizarBtnSync(true);
+  }catch(e){
+    st.style.background='#fef2f2';st.style.border='1px solid #fca5a5';
+    st.textContent='❌ Erro: '+e.message+'. Verifique a Master Key.';
+    localStorage.removeItem(SYNC_KEY_STORE);
+    localStorage.removeItem(SYNC_KEY_STORE_ALIAS);
+  }
+}
+
+function mostrarMasterKey(){
+  document.getElementById('login-pin-panel').style.display='none';
+  document.getElementById('login-mk-panel').style.display='block';
+}
+function mostrarPIN(){
+  document.getElementById('login-mk-panel').style.display='none';
+  document.getElementById('login-pin-panel').style.display='block';
+}
+
+// Adiciona opção de trocar PIN nas configurações
+function trocarPIN(){
+  if(!confirm('Trocar PIN de acesso?'))return;
+  localStorage.removeItem(LOGIN_PIN_KEY);
+  _novoPinBuffer='';_novoPinPrimeiro='';_novoPinEtapa=1;
+  document.getElementById('tela-login').style.display='flex';
+  document.getElementById('login-pin-panel').style.display='none';
+  document.getElementById('login-mk-panel').style.display='none';
+  document.getElementById('login-criar-panel').style.display='block';
+  renderNovoPinDots();
+}
+
+
+
+// 1. FORÇA CARGA DA NUVEM quando localStorage está vazio
 const _cfgSync=getSyncConfig();
 if(_cfgSync.key){
   _syncAtivo=true;
   atualizarBtnSync(true);
-  // Carrega dados da nuvem se for mais recente
-  syncNuvemCarregar().then(atualizado=>{
-    if(atualizado){
-      // Roda limpeza de duplicatas NOVAMENTE nos dados vindos da nuvem
-      const dCli2=limparClientesDuplicados();
-      const dCat2=limparServicosCatalogo();
-      const dedup2=limparDuplicatas();
-      syncMensalidades();
-      syncObrigacoesServicos();
-      syncComp(COMP_HOJE);
-      persist();
-      // Envia a versão já limpa de volta pra nuvem, pra não duplicar de novo depois
-      syncNuvemSalvar();
-      toast('☁️ Dados atualizados da nuvem'+((dCli2>0||dCat2>0||dedup2.removidosSvc>0||dedup2.removidosReg>0)?' e duplicatas removidas!':'!'));
-      buildCliSelect('f-chk-cli');
-      buildCliSelect('f-svc-cli');
-      buildCliSelect('f-fin-cli');
-    }
-    renderChecklist();
-  });
+
+  // Se localStorage vazio (limpou cache), força carregar da nuvem sem comparar timestamp
+  const localTs=ld('naura_db',{})?.ts||0;
+  const localVazio=CLIENTES.length===0;
+
+  if(localVazio){
+    // Sem dados locais — carrega direto da nuvem sem verificar timestamp
+    toast('☁️ Restaurando dados da nuvem...',4000);
+    (async()=>{
+      try{
+        const cfg=getSyncConfig();
+        const res=await fetch(`https://api.jsonbin.io/v3/b/${cfg.bin}/latest`,{headers:{'X-Master-Key':cfg.key}});
+        if(!res.ok)throw new Error('Falha na conexão');
+        const data=await res.json();
+        const remote=data.record;
+        if(!remote?.clientes?.length)throw new Error('Nuvem sem dados');
+        CLIENTES=remote.clientes||[];
+        SERVICOS=remote.servicos||[];
+        REGISTROS=(remote.registros||[]).map(r=>({...r,recebimentos:r.recebimentos||[]}));
+        CONCLUSOES=remote.conclusoes||[];
+        nId=Math.max(1000,...SERVICOS.map(x=>x.id||0))+1;
+        nCId=Math.max(1000,...CLIENTES.map(x=>x.id||0))+1;
+        nRId=Math.max(1000,...REGISTROS.map(x=>x.id||0))+1;
+        nOId=Math.max(1000,...CONCLUSOES.map(x=>x.id||0))+1;
+        limparDuplicatas();syncMensalidades();syncObrigacoesServicos();syncComp(COMP_HOJE);
+        persist();
+        toast(`✅ ${CLIENTES.length} clientes restaurados da nuvem!`);
+        renderDashboard();renderChecklist();
+        buildCliSelect('f-chk-cli');buildCliSelect('f-svc-cli');buildCliSelect('f-fin-cli');
+      }catch(e){
+        toast('⚠️ Sem dados locais e falha na nuvem. Verifique a conexão.',5000);
+        renderChecklist();
+      }
+    })();
+  } else {
+    // Tem dados locais — verifica se nuvem é mais recente
+    syncNuvemCarregar().then(atualizado=>{
+      if(atualizado){
+        limparClientesDuplicados();limparServicosCatalogo();limparDuplicatas();
+        syncMensalidades();syncObrigacoesServicos();syncComp(COMP_HOJE);persist();
+        toast('☁️ Dados atualizados da nuvem!');
+        buildCliSelect('f-chk-cli');buildCliSelect('f-svc-cli');buildCliSelect('f-fin-cli');
+      }
+      renderChecklist();
+    });
+  }
 } else {
   renderChecklist();
 }
+
+// 2. AUTO-SYNC A CADA 3 MINUTOS — garante envio mesmo sem ações do usuário
+setInterval(()=>{
+  if(getSyncConfig().key&&CLIENTES.length>0){
+    syncNuvemSalvar();
+    const el=document.getElementById('sl-save');
+    if(el){el.textContent='☁️ Auto-salvo às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
+  }
+},3*60*1000);
+
+// 2b. POLLING A CADA 30 SEGUNDOS — detecta mudanças feitas em outro aparelho
+let _lastRemoteTs=0;
+setInterval(async()=>{
+  const cfg=getSyncConfig();
+  if(!cfg.key||!cfg.bin||document.hidden)return; // não verifica se aba não está visível
+  try{
+    const res=await fetch(`https://api.jsonbin.io/v3/b/${cfg.bin}/latest`,{headers:{'X-Master-Key':cfg.key}});
+    if(!res.ok)return;
+    const data=await res.json();
+    const remoteTs=data.record?.ts||0;
+    const localTs=ld('naura_db',{})?.ts||0;
+    if(remoteTs>localTs+5000&&remoteTs!==_lastRemoteTs){
+      _lastRemoteTs=remoteTs;
+      // Há dados mais novos na nuvem — carrega silenciosamente
+      const remote=data.record;
+      if(remote?.clientes?.length>0){
+        CLIENTES=remote.clientes||[];SERVICOS=remote.servicos||[];
+        REGISTROS=(remote.registros||[]).map(r=>({...r,recebimentos:r.recebimentos||[]}));
+        CONCLUSOES=remote.conclusoes||[];
+        nId=Math.max(1000,...SERVICOS.map(x=>x.id||0))+1;
+        nCId=Math.max(1000,...CLIENTES.map(x=>x.id||0))+1;
+        nRId=Math.max(1000,...REGISTROS.map(x=>x.id||0))+1;
+        nOId=Math.max(1000,...CONCLUSOES.map(x=>x.id||0))+1;
+        limparDuplicatas();syncMensalidades();syncComp(COMP_HOJE);
+        persist();
+        toast('🔄 Dados atualizados de outro dispositivo!');
+        renderDashboard();renderChecklist();
+      }
+    }
+  }catch(e){}
+},30*1000);
+
+// 3. SALVA NA NUVEM ANTES DE FECHAR A ABA
+window.addEventListener('beforeunload',()=>{
+  if(getSyncConfig().key&&CLIENTES.length>0){
+    // Usa sendBeacon para garantir o envio mesmo fechando
+    const cfg=getSyncConfig();
+    const db={v:7,clientes:CLIENTES,servicos:SERVICOS,registros:REGISTROS,conclusoes:CONCLUSOES,ts:Date.now()};
+    const blob=new Blob([JSON.stringify(db)],{type:'application/json'});
+    navigator.sendBeacon&&navigator.sendBeacon(
+      `https://api.jsonbin.io/v3/b/${cfg.bin}`,blob
+    );
+  }
+});
 
 // Mostra alerta de sem dados se vazio
 const _alertSD=document.getElementById('alert-sem-dados');
