@@ -233,9 +233,18 @@ tr.rl td{background:#fff5f5}tr.rl:hover td{background:var(--rll)}
       <div style="font-size:13px;color:#64748b;margin-bottom:20px;text-align:center">Acesso rápido ao app</div>
       <div style="display:flex;gap:10px;justify-content:center;margin-bottom:20px" id="pin-dots"></div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:240px;margin:0 auto 20px">
-        ${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(n=>`
-          <button onclick="pinKey('${n}')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;transition:.1s;color:#1a3a6b" onmousedown="this.style.background='#dbeafe'" onmouseup="this.style.background='#f8fafc'">${n}</button>
-        `).join('')}
+        <button onclick="pinKey('1')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">1</button>
+        <button onclick="pinKey('2')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">2</button>
+        <button onclick="pinKey('3')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">3</button>
+        <button onclick="pinKey('4')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">4</button>
+        <button onclick="pinKey('5')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">5</button>
+        <button onclick="pinKey('6')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">6</button>
+        <button onclick="pinKey('7')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">7</button>
+        <button onclick="pinKey('8')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">8</button>
+        <button onclick="pinKey('9')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">9</button>
+        <div></div>
+        <button onclick="pinKey('0')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">0</button>
+        <button onclick="pinKey('⌫')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">⌫</button>
       </div>
       <div style="text-align:center">
         <button onclick="mostrarMasterKey()" style="background:none;border:none;color:#3b82f6;font-size:13px;cursor:pointer;text-decoration:underline">
@@ -276,9 +285,19 @@ tr.rl td{background:#fff5f5}tr.rl:hover td{background:var(--rll)}
       <div style="font-size:13px;color:#64748b;margin-bottom:20px;text-align:center">Escolha um PIN de 4 dígitos para acessar rapidamente o app neste aparelho.</div>
       <div style="display:flex;gap:10px;justify-content:center;margin-bottom:16px" id="novo-pin-dots"></div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:240px;margin:0 auto 16px">
-        ${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(n=>`
-          <button onclick="novoPinKey('${n}')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b" onmousedown="this.style.background='#dbeafe'" onmouseup="this.style.background='#f8fafc'">${n}</button>
-        `).join('')}
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:240px;margin:0 auto 16px">
+        <button onclick="novoPinKey('1')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">1</button>
+        <button onclick="novoPinKey('2')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">2</button>
+        <button onclick="novoPinKey('3')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">3</button>
+        <button onclick="novoPinKey('4')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">4</button>
+        <button onclick="novoPinKey('5')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">5</button>
+        <button onclick="novoPinKey('6')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">6</button>
+        <button onclick="novoPinKey('7')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">7</button>
+        <button onclick="novoPinKey('8')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">8</button>
+        <button onclick="novoPinKey('9')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">9</button>
+        <div></div>
+        <button onclick="novoPinKey('0')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">0</button>
+        <button onclick="novoPinKey('⌫')" style="height:56px;border-radius:12px;border:2px solid #e2e8f0;background:#f8fafc;font-size:20px;font-weight:700;cursor:pointer;color:#1a3a6b">⌫</button>
       </div>
       <div style="font-size:12px;color:#64748b;text-align:center">4 dígitos · Não pode ser 0000 ou 1234</div>
     </div>
